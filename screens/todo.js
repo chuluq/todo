@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons as Icon } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { todoAdded, todoStatusUpdated } from '../redux/todoSlice';
+import { todoAdded, todoStatusUpdated, todoDeleted } from '../redux/todoSlice';
 import { nanoid } from '@reduxjs/toolkit';
 import Checkbox from '../components/Checkbox';
 
@@ -31,6 +31,10 @@ const Todo = () => {
     dispatch(todoStatusUpdated(id));
   };
 
+  const handleDelete = (id) => {
+    dispatch(todoDeleted(id));
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Todo</Text>
@@ -54,6 +58,13 @@ const Todo = () => {
               >
                 {item.todo}
               </Text>
+              <Icon
+                name='trash-outline'
+                type='ionicon'
+                size={20}
+                style={{ marginLeft: 'auto' }}
+                onPress={() => handleDelete(item.id)}
+              />
             </View>
           );
         }}
