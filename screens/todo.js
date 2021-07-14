@@ -2,51 +2,33 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons as Icon } from '@expo/vector-icons';
+import { useSelector, useDispatch } from 'react-redux';
+import { todoAdded, todoStatusUpdated } from '../redux/todoSlice';
 import { nanoid } from '@reduxjs/toolkit';
 import Checkbox from '../components/Checkbox';
 
 const Todo = () => {
+  const todos = useSelector((state) => state.todos);
   const [value, setValue] = useState('');
-  const [todos, setTodos] = useState([
-    {
-      id: nanoid(),
-      todo: 'Coding',
-      completed: false,
-    },
-    {
-      id: nanoid(),
-      todo: 'Breakfast',
-      completed: false,
-    },
-  ]);
+
+  const dispatch = useDispatch();
 
   const handleSave = () => {
-    setTodos((prevState) => {
-      return [
-        ...prevState,
-        {
+    if (value) {
+      dispatch(
+        todoAdded({
           id: nanoid(),
           todo: value,
           completed: false,
-        },
-      ];
-    });
+        })
+      );
+    }
+
     setValue('');
   };
 
   const handleChecked = (id) => {
-    setTodos(
-      todos.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            completed: !item.completed,
-          };
-        }
-
-        return item;
-      })
-    );
+    dispatch(todoStatusUpdated(id));
   };
 
   return (
