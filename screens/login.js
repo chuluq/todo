@@ -49,7 +49,12 @@ const Login = () => {
             autoCapitalize='none'
             style={styles.input}
             value={email}
-            onChangeText={(text) => setInput({ email: text })}
+            onChangeText={(text) => {
+              setInput((prevState) => ({
+                ...prevState,
+                email: text,
+              }));
+            }}
           />
         </View>
         <View style={styles.field}>
@@ -57,10 +62,16 @@ const Login = () => {
           <TextInput
             placeholder='********'
             textContentType='password'
+            secureTextEntry={true}
             autoCapitalize='none'
             style={styles.input}
             value={password}
-            onChangeText={(text) => setInput({ password: text })}
+            onChangeText={(text) => {
+              setInput((prevState) => ({
+                ...prevState,
+                password: text,
+              }));
+            }}
           />
         </View>
       </View>
@@ -95,9 +106,10 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    paddingHorizontal: 8,
+    paddingHorizontal: 10,
     marginTop: 12,
     borderRadius: 5,
+    fontWeight: 'bold',
   },
   button: {
     marginVertical: 16,

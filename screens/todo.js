@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons as Icon } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { todoAdded, todoStatusUpdated, todoDeleted } from '../redux/todoSlice';
+import { logout } from '../redux/userSlice';
 import { nanoid } from '@reduxjs/toolkit';
 import Checkbox from '../components/Checkbox';
 
@@ -35,9 +36,16 @@ const Todo = () => {
     dispatch(todoDeleted(id));
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Todo</Text>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Todo</Text>
+        <Icon name='exit' size={24} onPress={handleLogout} />
+      </View>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={todos}
@@ -89,6 +97,12 @@ const styles = StyleSheet.create({
     margin: 16,
   },
   header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    marginBottom: 8,
+  },
+  headerText: {
     fontSize: 24,
     fontWeight: '700',
     letterSpacing: 2,
